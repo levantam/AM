@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { GrossNetConversionComponent } from './gross-net-conversion/gross-net-conversion.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule, Routes } from '@angular/router';
+import { NgbNav } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const routes: Routes = [
   { path: '',
@@ -20,7 +22,8 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FontAwesomeModule
   ]
 })
 export class HrModule { }

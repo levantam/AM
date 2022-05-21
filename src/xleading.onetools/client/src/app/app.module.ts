@@ -12,6 +12,8 @@ import { HrModule } from './hr/hr.module';
 import { LayoutModule } from './layout/layout.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { RouterModule } from '@angular/router';
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
     HrModule,
-    LayoutModule
+    LayoutModule,
+    NgbModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

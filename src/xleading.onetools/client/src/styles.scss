@@ -11,3 +11,11 @@ main {
         
     }
 }
+
+/* Custom bootstrap*/
+.btn-active {
+  background-color: #0B5ED7 !important;
+  color: white !important
+}
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

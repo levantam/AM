@@ -1,13 +1,74 @@
 <div class="content">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card shadow-none">
                 <div class="card-body">
-                    left
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="text-dark m-2">Mức Lương</h3>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="input-group input-group-lg">
+                                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                                <span class="input-group-text" id="inputGroup-sizing-lg">VNĐ</span>
+                              </div>
+                        </div>
+                        <div class="col-md-4">
+                          <button (click)="convert('gross')" type="button" class="btn btn-sm btn-success mx-2">Gross</button>
+                          <button (click)="convert('net')" type="button" class="btn btn-sm btn-success">NET</button>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                              <h5 class="text-dark m-2"><i class="fa-solid fa-gear"></i> Tùy chỉnh</h5>
+                            </div>
+                              <div>
+                                  <button data-bs-target="#collapse1" (click)="onChangeTab('collapse1')" class="btn btn-secondary mx-1 mb-2" [class.btn-active]="currentTab === 'collapse1'" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                                    Người phụ thuộc
+                                  </button>
+                                  <button data-bs-target="#collapse2" (click)="onChangeTab('collapse2')" class="btn btn-secondary mx-1 mb-2" [class.btn-active]="currentTab === 'collapse2'" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                                    Mức Đóng bảo hiểm
+                                  </button>
+                                  <button data-bs-target="#collapse3" (click)="onChangeTab('collapse3')" class="btn btn-secondary mx-1 mb-2" [class.btn-active]="currentTab === 'collapse3'" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                                    Vùng
+                                  </button>
+                                  <button data-bs-target="#collapse4" (click)="onChangeTab('collapse4')" class="btn btn-secondary mx-1 mb-2" [class.btn-active]="currentTab === 'collapse4'" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                                    Khác
+                                  </button>
+                              </div>
+                              <div class="collapse" id="collapse1" [class.show]="currentTab === 'collapse1'">
+                                <div class="card card-body">
+                                  Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                                </div>
+                              </div>
+                              <div class="collapse" id="collapse2" [class.show]="currentTab === 'collapse2'">
+                                <div class="card card-body">
+                                  2 Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                                </div>
+                              </div>
+                              <div class="collapse" id="collapse3" [class.show]="currentTab === 'collapse3'">
+                                <div class="card card-body">
+                                  2 Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                                </div>
+                              </div>
+                              <div class="collapse" id="collapse4" [class.show]="currentTab === 'collapse4'">
+                                <div class="card card-body">
+                                  2 Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                      <div class="col-md-12 text-center">
+                        
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="card shadow-none">
                 <div class="card-body">
                     right
