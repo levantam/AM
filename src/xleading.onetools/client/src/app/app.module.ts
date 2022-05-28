@@ -14,6 +14,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxCurrencyModule } from 'ngx-currency';
+import { FormsModule } from '@angular/forms';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HrModule,
     LayoutModule,
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxCurrencyModule,
+    FormsModule,
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,79 +1,472 @@
 <div class="content">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card shadow-none">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3 class="text-dark m-2">Mức Lương</h3>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="input-group input-group-lg">
-                                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-                                <span class="input-group-text" id="inputGroup-sizing-lg">VNĐ</span>
-                              </div>
-                        </div>
-                        <div class="col-md-4">
-                          <button (click)="convert('gross')" type="button" class="btn btn-sm btn-success mx-2">Gross</button>
-                          <button (click)="convert('net')" type="button" class="btn btn-sm btn-success">NET</button>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-12">
-                            <div class="col-md-12">
-                              <h5 class="text-dark m-2"><i class="fa-solid fa-gear"></i> Tùy chỉnh</h5>
-                            </div>
-                              <div>
-                                  <button data-bs-target="#collapse1" (click)="onChangeTab('collapse1')" class="btn btn-secondary mx-1 mb-2" [class.btn-active]="currentTab === 'collapse1'" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
-                                    Người phụ thuộc
-                                  </button>
-                                  <button data-bs-target="#collapse2" (click)="onChangeTab('collapse2')" class="btn btn-secondary mx-1 mb-2" [class.btn-active]="currentTab === 'collapse2'" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
-                                    Mức Đóng bảo hiểm
-                                  </button>
-                                  <button data-bs-target="#collapse3" (click)="onChangeTab('collapse3')" class="btn btn-secondary mx-1 mb-2" [class.btn-active]="currentTab === 'collapse3'" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
-                                    Vùng
-                                  </button>
-                                  <button data-bs-target="#collapse4" (click)="onChangeTab('collapse4')" class="btn btn-secondary mx-1 mb-2" [class.btn-active]="currentTab === 'collapse4'" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
-                                    Khác
-                                  </button>
-                              </div>
-                              <div class="collapse" id="collapse1" [class.show]="currentTab === 'collapse1'">
-                                <div class="card card-body">
-                                  Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                                </div>
-                              </div>
-                              <div class="collapse" id="collapse2" [class.show]="currentTab === 'collapse2'">
-                                <div class="card card-body">
-                                  2 Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                                </div>
-                              </div>
-                              <div class="collapse" id="collapse3" [class.show]="currentTab === 'collapse3'">
-                                <div class="card card-body">
-                                  2 Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                                </div>
-                              </div>
-                              <div class="collapse" id="collapse4" [class.show]="currentTab === 'collapse4'">
-                                <div class="card card-body">
-                                  2 Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                                </div>
-                              </div>
-                        </div>
-                    </div>
 
-                    <div class="row mt-2">
-                      <div class="col-md-12 text-center">
-                        
-                      </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card shadow-none">
-                <div class="card-body">
-                    right
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container p-3 border">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="input-group input-group-lg border-dark text-right">
+					<input (focusout)="onChangeSalary()" [(ngModel)]="input.salary" currencyMask max="maximumSalary"
+						[options]="currencyOptions" type="text" class="form-control"
+						(keyup.enter)="onSubmit(true)"
+						(keyup)="suggestSalary()"
+						autofocus
+						>
+					<span (click)="openModal(contentConfiguration)" class="input-group-text"
+						id="inputGroup-sizing-lg">{{currencyOptions.prefixStr}}</span>
+				</div>
+				<div *ngIf="suggestSalaries" class="text-end m-2">
+					<span *ngFor="let sal of suggestSalaries" (click)="chooseSalary(sal)" class="badge rounded-pill text-dark border pointer bg-info">
+						<app-currency [value]="sal"></app-currency>
+					</span>
+				</div>
+				<div class="text-end text-muted currencyBox" *ngIf="!input.isVietnamdongSalary">
+					<p><small>Tỷ giá (USD): <app-currency [value]="configuration.exchangeRate"></app-currency> (Vietcombank {{currentDate | date: 'shortDate'}})</small></p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<button (click)="onSubmit(true)" type="button" class="btn btn-outline-success btn-lg mx-2">GROSS <i
+						class="fa-solid fa-arrow-right"></i> NET</button>
+				<button (click)="onSubmit(false)" type="button" class="btn btn-outline-success btn-lg">NET <i
+						class="fa-solid fa-arrow-right"></i> GROSS</button>
+			</div>
+		</div>
+		<div class="row mx-1 my-5 border bg-light bg-info">
+			<div class="col-md-12">
+				<div class="d-flex align-items-center ps-3 pe-2 py-1" (click)="onOpenDetail()">
+					<small class="font-monospace text-muted text-uppercase">
+						<strong>{{detailStr}}</strong>
+					</small>
+					<div class="d-flex ms-auto">
+						<button (click)="onOpenDetail()" type="button" class="btn text-nowrap bg-transparent"
+							data-bs-toggle="collapse" href="#collapseDetail">
+							<i *ngIf="isOpeningDetail; else showOpenning" class="fa-solid fa-angle-up"></i>
+							<ng-template #showOpenning>
+								<i class="fa-solid fa-angle-down"></i>
+							</ng-template>
+						</button>
+						<button (click)="openModal(contentConfiguration)" type="button" class="btn bg-transparent"
+							data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+							title="Cấu hình (% bảo hiểm, tỷ giá $, ....)">
+							<i class="fa-solid fa-gear"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 collapse p-5 border" id="collapseDetail">
+				<div class="row my-2">
+					<div class="col-md-3"><strong>Bảo hiểm đóng trên</strong></div>
+					<div class="col-md-6">
+						<div class="form-check">
+							<input (change)="onChangeInsuranceWageType(true)" value="item.region" checked
+								class="form-check-input" type="radio" name="insuranceOnSalary"
+								id="insuranceOnOfficalSalary">
+							<label class="form-check-label" for="insuranceOnOfficalSalary">
+								Lương chính thức
+							</label>
+						</div>
+						<div class="form-check">
+							<input (change)="onChangeInsuranceWageType(false)" value="item.region"
+								class="form-check-input" type="radio" name="insuranceOnSalary"
+								id="insuranceOnSpecificSalary">
+							<label class="form-check-label" for="insuranceOnSpecificSalary">
+								Lương cố định
+							</label>
+						</div>
+						<div class="row" *ngIf="!input.isFullInsuranceWage">
+							<div class="col-md-6">
+								<div class="input-group input-group border-dark text-right">
+									<input (change)="onChangeSalaryWage()" [(ngModel)]="input.insuranceWage"
+										currencyMask [options]="currencyOptions" type="text" class="form-control"
+										aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+									<span class="input-group-text"
+										id="inputGroup-sizing-lg">{{currencyOptions.prefixStr}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="row my-2">
+					<div class="col-md-3">
+						<strong>
+							Vùng <i class="fa-solid fa-circle-info"></i>
+						</strong>
+					</div>
+					<div class="col-md-1" *ngFor="let item of regionConfigurations; let i = index">
+						<div class="form-check">
+							<input (change)="onChangeRegion(item)" value="item.region" [checked]="i==0"
+								class="form-check-input" type="radio" name="region" [attr.id]="'region' + i">
+							<label class="form-check-label" [attr.for]="'region' + i">
+								{{item.name}}
+							</label>
+						</div>
+
+					</div>
+				</div>
+				<div class="row my-2">
+					<div class="col-md-3">
+						<strong>Người phụ thuộc</strong>
+					</div>
+					<div class="col-md-8">
+						<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+							<div *ngFor="let item of maximumDependencies; let i = index" class="mx-1">
+								<input (change)="onChangeDepenencyCount(item)" [checked]="i==0" type="radio"
+									class="btn-check" name="rbDependency" [attr.id]="'rbDependency' + i"
+									autocomplete="off" [value]="item">
+								<label class="btn btn-sm btn-outline-dark mr-2"
+									[attr.for]="'rbDependency' + i">{{item}}</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row actions">
+			<div class="col-md-12 text-center">
+
+			</div>
+		</div>
+		<div class="row result" *ngIf="showResult && isReady">
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-body">
+						<div class="bd-callout bd-callout-info">
+							<p><span class="badge bg-warning d-inline-block"  data-bs-toggle="tooltip" data-bs-placement="top" title="Lương thực lãnh">NET</span></p>
+							<h1>
+								<i class="fa-solid fa-sack-dollar"></i>
+								<app-currency [value]="calculatedSalary.netVietnamdong">
+								</app-currency>
+							</h1>
+							<p class="text-muted"><small>
+								<app-currency [value]="calculatedSalary.netDollar" [currency]="currency.USD">
+								</app-currency>
+							</small></p>
+
+							<div class="row detail d-none">
+								<div class="col-md-12 widget-item border-start border-secondary">
+									<p class="text-muted text-uppercase"><small>Bảo hiểm</small></p>
+									<h5>200.000 vnđ</h5>
+								</div>
+							</div>
+						</div>
+						<div class="bd-callout bd-callout-info d-none">
+							<p><span class="badge bg-warning">Gross</span></p>
+							<h1>
+								<app-currency [value]="calculatedSalary.netVietnamdong">
+								</app-currency>
+							</h1>
+							<p class="text-muted"><small>
+								<app-currency [value]="calculatedSalary.netDollar">
+								</app-currency>
+							</small></p>
+						</div>
+						<!--Chart-->
+						<div class="row">
+							<div class="col-md-12">
+								<ngx-charts-pie-chart
+									[view]="view"
+									[results]="chart"
+									[gradient]="false"
+									[legend]="false"
+									[labels]="true"
+									[doughnut]="true"
+									[scheme]="colorScheme"
+									>
+								</ngx-charts-pie-chart>
+							</div>
+						</div>
+						<!--END chart-->
+					</div>
+				</div>
+
+			</div>
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-6">
+								<h3>Chi tiết</h3>
+								<div class="form-check form-switch mt-3">
+									<input class="form-check-input" type="checkbox" role="switch"
+										id="flexSwitchCheckChecked" [(ngModel)]="showDetail">
+									<label class="form-check-label" for="flexSwitchCheckChecked">Hiển thị chi
+										tiết</label>
+								</div>
+							</div>
+							<div class="col-md-6 text-end">
+								<button class="btn btn-sm btn-outline-success">Tải File</button>
+							</div>
+						</div>
+						<div class="row" *ngIf="!showDetail; else detailSalary">
+							<div class="col-md-12">
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Tên</th>
+											<th scope="col">%</th>
+											<th class="text-end" scope="col">Tiền</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row">1</th>
+											<td>Bảo hiểm (xã hội, y tế, thất nghiệp)</td>
+											<td *ngIf="configuration">
+												{{configuration?.insuranceSocialPercent +
+												configuration?.insuranceHealthPercent +
+												configuration?.insuranceUnemployedPercent}}%
+											</td>
+											<td class="text-end">
+												<strong>
+													<app-currency
+														[value]="-(calculatedSalary?.insuranceSocial + calculatedSalary?.insuranceHealth + calculatedSalary?.insuranceUnemployed)">
+													</app-currency>
+												</strong>
+											</td>
+										</tr>
+
+										<tr>
+											<th scope="row">2</th>
+											<td colspan="2">
+												Giảm trừ người phụ thuộc ({{input.dependantCount}})
+											</td>
+											<td class="text-end">
+												<strong>
+													<app-currency [value]="-calculatedSalary.dependenciesReduction">
+													</app-currency>
+												</strong>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">3</th>
+											<td colspan="2">Giảm trừ bản thân</td>
+											<td class="text-end">
+												<strong>
+													<app-currency [value]="-calculatedSalary.personalReduction">
+													</app-currency>
+												</strong>
+											</td>
+										</tr>
+										<tr>
+											<th colspan="3" scope="row"><strong>Thu nhập tính thuế</strong></th>
+											<td class="text-end">
+												<strong>
+													<app-currency [value]="calculatedSalary.taxSalary"></app-currency>
+												</strong>
+											</td>
+										</tr>
+										<tr>
+											<th colspan="3" scope="row"><strong>Thuế</strong></th>
+											<td class="text-end">
+												<strong>
+													<app-currency [value]="-calculatedSalary.tax"></app-currency>
+												</strong>
+											</td>
+										</tr>
+										<tr class="text-white bg-info">
+											<th colspan="3" scope="row">
+												<h4 class="text-white"><strong>Lương NET</strong></h4>
+											</th>
+											<td class="text-end">
+												<h4 class="text-white">
+													<app-currency [value]="calculatedSalary.netVietnamdong">
+													</app-currency>
+												</h4>
+											</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<ng-template #detailSalary>
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Tên</th>
+										<th scope="col">%</th>
+										<th class="text-end" scope="col">Tiền</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">1</th>
+										<td>Bảo hiểm xã hội</td>
+										<td>{{configuration?.insuranceSocialPercent}}%</td>
+										<td class="text-end">
+											<strong>
+												<app-currency [value]="-calculatedSalary?.insuranceSocial">
+												</app-currency>
+											</strong>
+										</td>
+									</tr>
+
+									<tr>
+										<th scope="row">2</th>
+										<td>Bảo hiểm y tế</td>
+										<td>{{configuration?.insuranceHealthPercent}}%</td>
+										<td class="text-end">
+											<strong>
+												<app-currency [value]="-calculatedSalary?.insuranceHealth">
+												</app-currency>
+											</strong>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">3</th>
+										<td>Bảo hiểm thất nghiệp</td>
+										<td>{{configuration?.insuranceUnemployedPercent}}%</td>
+										<td class="text-end">
+											<strong>
+												<app-currency [value]="-calculatedSalary?.insuranceUnemployed">
+												</app-currency>
+											</strong>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">Giảm trừ người phụ thuộc ({{input.dependantCount}})</td>
+										<td class="text-end">
+											<app-currency [value]="-calculatedSalary.dependenciesReduction">
+											</app-currency>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">Giảm trừ bản thân</td>
+										<td class="text-end">
+											<app-currency [value]="-calculatedSalary.personalReduction"></app-currency>
+										</td>
+									</tr>
+
+									<tr>
+										<th colspan="3" scope="row"><strong>Thu nhập tính thuế</strong></th>
+										<td class="text-end">
+											<strong>
+												<app-currency [value]="calculatedSalary.taxSalary"></app-currency>
+											</strong>
+										</td>
+									</tr>
+									<tr>
+										<th colspan="3" scope="row"><strong>Thuế</strong></th>
+										<td class="text-end">
+											<strong>
+												<app-currency [value]="-calculatedSalary.tax"></app-currency>
+											</strong>
+										</td>
+									</tr>
+									<tr class="text-white bg-info">
+										<th colspan="3" scope="row">
+											<h4 class="text-white"><strong>Lương NET</strong></h4>
+										</th>
+										<td class="text-end">
+											<h4 class="text-white">
+												<app-currency [value]="calculatedSalary.netVietnamdong"></app-currency>
+											</h4>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+							<div>
+								<h4>Chi tiết thuế</h4>
+								<p>
+									<button class="btn btn-outline-primary btn-sm m-2" data-bs-toggle="collapse"
+										href="#taxInfo" role="button" aria-expanded="false"
+										aria-controls="collapseExample">
+										<i class="fa-solid fa-sack-dollar"></i> Chi tiết thuế
+									</button> 
+									<button class="btn btn-outline-primary btn-sm m-2" type="button"
+										data-bs-toggle="collapse" data-bs-target="#employerInfo" aria-expanded="false"
+										aria-controls="collapseExample">
+										<i class="fa-solid fa-building-user"></i> Doanh nghiệp trả
+									</button>
+								</p>
+								<div class="collapse" id="taxInfo">
+									<div class="card card-body">
+										<table class="table">
+											<thead>
+												<tr>
+													<th scope="col">Mức thuế</th>
+													<th scope="col">Thuế suất</th>
+													<th class="text-end" scope="col">Tiền</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr *ngFor="let tax of calculatedSalary.taxDetail; let i = index;">
+													<th scope="row">
+														<app-currency [value]="tax.from"></app-currency>
+														-
+														<app-currency [value]="tax.to"></app-currency>
+													</th>
+													<td>{{tax.taxPercent}}%</td>
+													<td class="text-end">
+														<strong>
+															<app-currency [value]="-tax.tax"></app-currency>
+														</strong>
+													</td>
+												</tr>
+
+												<tr class="text-white bg-info">
+													<th colspan="2">Tổng thuế thu nhập</th>
+													<td class="text-end">
+														<strong>
+															<app-currency [value]="-calculatedSalary.tax">
+															</app-currency>
+														</strong>
+													</td>
+												</tr>
+
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+								<div class="collapse" id="employerInfo">
+									<div class="card card-body">
+										<h6>Người sử dụng lao động trả:</h6>
+									</div>
+								</div>
+
+							</div>
+						</ng-template>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 </div>
+
+
+<ng-template #contentConfiguration let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Thông tin</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-check">
+					<input (change)="onChangeCurrencyType(true)" value="đ" [checked]="input.isVietnamdongSalary" class="form-check-input" type="radio"
+						name="currencyType" id="currencyVNDType">
+					<label class="form-check-label" for="insuranceOnOfficalSalary">
+						<i class="fa-solid fa-d"></i> Việt Nam Đồng
+					</label>
+				</div>
+				<div class="form-check">
+					<input (change)="onChangeCurrencyType(false)" value="$" class="form-check-input" type="radio" [checked]="!input.isVietnamdongSalary"
+						name="currencyType" id="currencyDollarType">
+					<label class="form-check-label" for="insuranceOnSpecificSalary">
+						<i class="fa-solid fa-dollar-sign"></i> Dollar
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close()">Close</button>
+	</div>
+</ng-template>

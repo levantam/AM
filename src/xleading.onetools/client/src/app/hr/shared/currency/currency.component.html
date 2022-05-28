@@ -1,0 +1,8 @@
+<span *ngIf="currency == 'VND'; else dollar">
+    {{value | number}}đ
+</span>
+<ng-template #dollar>
+    <span>
+        {{value | currency}}
+    </span>
+</ng-template>
