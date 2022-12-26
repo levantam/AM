@@ -51,7 +51,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12 collapse p-5 border" id="collapseDetail">
+			<div class="col-md-12 collapse p-5 border" [class.show]="isOpeningDetail" id="collapseDetail">
 				<div class="row my-2">
 					<div class="col-md-3"><strong>Bảo hiểm đóng trên</strong></div>
 					<div class="col-md-6">
@@ -446,27 +446,70 @@
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
 	<div class="modal-body">
-		
+		<h5 class="mb-2">Đơn vị tiền tệ</h5>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="form-check">
-					<input (change)="onChangeCurrencyType(true)" value="đ" [checked]="input.isVietnamdongSalary" class="form-check-input" type="radio"
-						name="currencyType" id="currencyVNDType">
+					<input (change)="onChangeCurrencyType(true)" value="đ" [checked]="input.isVietnamdongSalary"
+						class="form-check-input" type="radio" name="currencyType" id="currencyVNDType">
 					<label class="form-check-label" for="insuranceOnOfficalSalary">
 						<i class="fa-solid fa-d"></i> Việt Nam Đồng
 					</label>
 				</div>
 				<div class="form-check">
-					<input (change)="onChangeCurrencyType(false)" value="$" class="form-check-input" type="radio" [checked]="!input.isVietnamdongSalary"
-						name="currencyType" id="currencyDollarType">
+					<input (change)="onChangeCurrencyType(false)" value="$" class="form-check-input" type="radio"
+						[checked]="!input.isVietnamdongSalary" name="currencyType" id="currencyDollarType">
 					<label class="form-check-label" for="insuranceOnSpecificSalary">
 						<i class="fa-solid fa-dollar-sign"></i> Dollar
 					</label>
 				</div>
 			</div>
 		</div>
+		<h5 class="mb-2 mt-2">Bảo hiểm</h5>
+		<div class="mb-3 row">
+			<label for="staticEmail" class="col-sm-6 col-form-label">Bảo hiểm y tế</label>
+			<div class="col-sm-6">
+			  <input type="number" [(ngModel)]="configuration.insuranceHealthPercent" class="form-control" id="staticEmail"
+				>
+			</div>
+		</div>
+		<div class="mb-3 row">
+			<label for="staticEmail" class="col-sm-6 col-form-label">Bảo hiểm xã hội</label>
+			<div class="col-sm-6">
+				<input type="number" [(ngModel)]="configuration.insuranceSocialPercent" class="form-control"
+					id="staticEmail" >
+			</div>
+		</div>
+		<div class="mb-3 row">
+			<label for="staticEmail" class="col-sm-6 col-form-label">Bảo hiểm thất nghiệp</label>
+			<div class="col-sm-6">
+				<input type="number" [(ngModel)]="configuration.insuranceUnemployedPercent" class="form-control"
+					id="staticEmail" >
+			</div>
+		</div>
+		<div class="mb-3 row">
+			<label for="staticEmail" class="col-sm-6 col-form-label">Lương tối thiểu</label>
+			<div class="col-sm-6">
+				<input [(ngModel)]="configuration.basedSalary" currencyMask
+				[options]="currencyOptions" class="form-control" id="staticEmail" >
+			</div>
+		</div>
+		<div class="mb-3 row">
+			<label for="staticEmail" class="col-sm-6 col-form-label">Giảm trừ bản thân</label>
+			<div class="col-sm-6">
+				<input [(ngModel)]="configuration.personalReduction" currencyMask
+				[options]="currencyOptions" class="form-control" id="staticEmail" >
+			</div>
+		</div>
+		<div class="mb-3 row">
+			<label for="staticEmail" class="col-sm-6 col-form-label">Giảm trừ người phụ thuộc</label>
+			<div class="col-sm-6">
+				<input [(ngModel)]="configuration.dependantReduction" currencyMask
+				[options]="currencyOptions" class="form-control" id="staticEmail" >
+			</div>
+		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-dark" (click)="modal.close()">Close</button>
+		<button (click)="resetConfiguration()" type="button" class="btn btn-sm btn-link">Lấy lại giá trị cấu hình mặc định</button>
 	</div>
 </ng-template>

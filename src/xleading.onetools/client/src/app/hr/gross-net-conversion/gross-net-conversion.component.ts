@@ -50,12 +50,9 @@ export class GrossNetConversionComponent implements OnInit {
   input: HrGrossNetModel;
   calculatedSalary: SalaryInformation;
   isOpeningDetail = false;
-  constructor(firestore: AngularFirestore, private modalService: NgbModal) { 
+  constructor(private firestore: AngularFirestore, private modalService: NgbModal) { 
     this.input = DefaultHrGrossNetModel();
-    firestore.collection(HrGrossNetConfiguationName).valueChanges().subscribe(config => {
-      this.configuration = ParseHrGrossNetConfiguation(config[0]);
-      this.isReady = true;
-    });
+    this.getConfigurations();
     this.regionConfigurations = GetCostByRegion();
     this.maximumDependencies = Array(this.maximumDependenciesCount).fill(1).map((x,i)=>i);
   }
@@ -81,6 +78,7 @@ export class GrossNetConversionComponent implements OnInit {
   chooseSalary(salary: number) {
     this.input.salary = salary;
     this.onSubmit(this.input.isGrossSalary);
+    this.suggestSalaries = [];
   }
   onChangeSalary() {
     // this.input.isVietnamdongSalary = isVietnamdong(this.input.salary);
@@ -108,18 +106,36 @@ export class GrossNetConversionComponent implements OnInit {
     this.currencyOptions.prefixStr = this.input.isVietnamdongSalary ? Currency.VND : Currency.DOLLAR;
   }
   onSubmit(isGross: boolean) {
-    this.input.isGrossSalary = isGross;
-    this.calculatedSalary = calCulateTheSalary(this.input, this.configuration as any);
-    this.showResult = true;
-    this.buildChart();
-
-    
+    this.isReady = this.validate();
+    if (this.isReady) {
+      this.input.isGrossSalary = isGross;
+      this.calculatedSalary = calCulateTheSalary(this.input, this.configuration as any);
+      this.showResult = true;
+      this.buildChart();
+      this.buildDetailString();
+    }
+  }
+  validate(): boolean {
+    let isValid = true;
+    if (this.input.salary == 0) {
+      isValid = false;
+    }
+    return isValid;
   }
   openModal(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       // close
     }, (reason) => {
       // dimiss
+    });
+  }
+  resetConfiguration() {
+    this.getConfigurations();
+  }
+  getConfigurations() {
+    this.firestore.collection(HrGrossNetConfiguationName).valueChanges().subscribe(config => {
+      this.configuration = ParseHrGrossNetConfiguation(config[0]);
+      this.isReady = true;
     });
   }
   buildChart() {
@@ -137,5 +153,9 @@ export class GrossNetConversionComponent implements OnInit {
         "value": this.calculatedSalary.netVietnamdong
       }
     ]
+  }
+  buildDetailString() {
+    this.detailStr = `Vùng ${this.input.region} | ${this.input.dependantCount} Người Phụ Thuộc`;
+    this.detailStr += this.input.isFullInsuranceWage ? ' | Đóng BH trên lương chính thức' : ' | Đóng BH trên lương cố định';
   }
 }

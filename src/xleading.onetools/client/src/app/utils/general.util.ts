@@ -61,7 +61,7 @@ export function calCulateTheSalary(input: HrGrossNetModel, configurations: HrGro
         salaryForTaxCalculation = salaryInVietnamdong - reduceSalaryForTax - insurance;
 
         let tempSalary = salaryForTaxCalculation;
-        let needStopCalculation = false;
+        let needStopCalculation = salaryForTaxCalculation <= 0 ? true : false;
         taxConfiguration.forEach(t => {
             if (needStopCalculation) {
                 return;
@@ -90,7 +90,7 @@ export function calCulateTheSalary(input: HrGrossNetModel, configurations: HrGro
     result.grossVietnamdong = salaryInVietnamdong;
     result.netVietnamdong = netSalary;
     result.netDollar = convertCurrency(HrCurrencyEnum.VND, HrCurrencyEnum.USD, netSalary, configurations.exchangeRate);
-    result.taxSalary = salaryForTaxCalculation;
+    result.taxSalary = salaryForTaxCalculation <= 0 ? 0 : salaryForTaxCalculation;
     result.tax = tax;
     result.taxDetail = taxConfiguration;
     result.totalInsurance = insurance;
