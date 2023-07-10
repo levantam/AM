@@ -1,0 +1,6 @@
+.tool-item {
+    cursor: pointer;
+}
+.tool-item:hover {
+    background: #e4e4e3;
+}
