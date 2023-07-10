@@ -68,7 +68,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   return (
     <AntdLayout.Header style={headerStyles}>
       <Space>
-        <Dropdown
+        {/* <Dropdown
           menu={{
             items: menuItems,
             selectedKeys: currentLocale ? [currentLocale] : [],
@@ -81,7 +81,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
               <DownOutlined />
             </Space>
           </Button>
-        </Dropdown>
+        </Dropdown> */}
         <Switch
           checkedChildren="🌛"
           unCheckedChildren="🔆"

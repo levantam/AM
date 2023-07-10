@@ -11,4 +11,13 @@ export const AllToolsData: ToolInformationDto[] = [
         icon: '',
         isActive: true
     },
+    {
+        id: ToolEnum.GrossNetCalculation,
+        name: 'Tính lương GROSS-NET',
+        category: ToolCategory.hrTools,
+        shortDescription: 'Công cụ chuyển đổi lương GROSS-NET',
+        description: 'Công cụ chuyển đổi lương GROSS-NET',
+        icon: '',
+        isActive: true
+    },
 ]

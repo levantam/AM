@@ -35,7 +35,9 @@ import {
   CategoryShow,
 } from "./pages/categories";
 import { DevToolList, DevToolShow } from "./pages/dev-tools";
-import { CodeOutlined } from "@ant-design/icons";
+import { CodeOutlined, DotChartOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { AboutPage } from "./pages/about";
+import { HrToolList, HrToolShow } from "./pages/hr-tools";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -79,10 +81,27 @@ function App() {
               {
                 name: "dev_tools",
                 list: "/dev-tools",
-                show: "/dev/show/:id",
+                show: "/dev-tools/show/:id",
                 meta: {
                   canDelete: true,
                   icon: <CodeOutlined /> 
+                },
+              },
+              {
+                name: "HR_tools",
+                list: "/hr-tools",
+                show: "/hr-tools/show/:id",
+                meta: {
+                  canDelete: true,
+                  icon: <DotChartOutlined />
+                },
+              },
+              {
+                name: "about",
+                list: "/about",
+                meta: {
+                  canDelete: true,
+                  icon: <InfoCircleOutlined /> 
                 },
               },
             ]}
@@ -128,6 +147,13 @@ function App() {
                 <Route path="/dev-tools">
                   <Route index element={<DevToolList />} />
                   <Route path="show/:id" element={<DevToolShow />} />
+                </Route>
+                <Route path="/hr-tools">
+                  <Route index element={<HrToolList />} />
+                  <Route path="show/:id" element={<HrToolShow />} />
+                </Route>
+                <Route path="/about">
+                  <Route index element={<AboutPage />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>

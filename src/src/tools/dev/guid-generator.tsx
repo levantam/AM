@@ -38,7 +38,7 @@ export const GuidGenerator = () => {
         await navigator.clipboard.writeText(val);
         api.info({
             message: `Copied`,
-            description: "",
+            description: "Copied to the clipboard",
             placement: 'bottomRight',
         });
     }
@@ -50,6 +50,7 @@ export const GuidGenerator = () => {
             initialValues={{ number: 1, isUpper: true, isCopyToClipboard: true }}
             onFinish={onFinish}
         >
+            {contextHolder}
             <Row>
 
                 <Col span={10} style={{ padding: 10 }}>
