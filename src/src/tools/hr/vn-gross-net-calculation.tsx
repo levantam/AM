@@ -53,10 +53,10 @@ export const VNGrossNetCalculation = () => {
     }
 
     const initPage = () => {
-        const mapping = regionConfigs.map(t => {
+        const mapping = (regionConfigs ?? []).map(t => {
             return {
                 label: t.name,
-                options: input.provinceRegionMappingConfig?.filter(m => m.region == t.id).map(t => { return { label: t.provinceName, value: `${t.region}-${t.provinceName}` } })
+                options: (input.provinceRegionMappingConfig ?? [])?.filter(m => m.region == t.id).map(t => { return { label: t.provinceName, value: `${t.region}-${t.provinceName}` } })
             }
         });
         setRegionMapping(mapping);
@@ -306,7 +306,7 @@ export const VNGrossNetCalculation = () => {
                                         })}
 
                                         <Descriptions.Item label="NGƯỜI SỬ DỤNG LAO ĐỘNG TRẢ" style={{ fontWeight: 'bold', textAlign: 'right' }} span={2} >
-                                            <Currency value={output.totalInsuranceForCompany + output.grossAmount} />
+                                            <Currency value={(output.totalInsuranceForCompany ?? 0) + (output.grossAmount ?? 0)} />
                                         </Descriptions.Item>
 
                                         <Descriptions.Item label={`Lương GROSS`} style={{ textAlign: 'right' }} >

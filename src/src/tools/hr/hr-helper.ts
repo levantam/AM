@@ -132,7 +132,7 @@ const calculateFromGrossToNetSalary = (input: GrossNetInput, initOutput: GrossNe
     }
     
 
-    result.salaryBeforeTax = totalSalary - (result.totalInsuranceForStaff ?? 0) - result.totalTradeUnion;
+    result.salaryBeforeTax = totalSalary - (result.totalInsuranceForStaff ?? 0) - (result.totalTradeUnion ?? 0);
 
     // Reduce
     result.reduceIndividualAmount = input.reduceIndependenceConfig?.individualAmount ?? 0;
