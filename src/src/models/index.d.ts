@@ -6,5 +6,5 @@ export interface ToolInformationDto {
     description?: string,
     icon?: string,
     isActive?: boolean,
-
+    background?: string,
 }

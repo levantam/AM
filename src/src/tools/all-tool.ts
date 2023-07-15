@@ -18,6 +18,7 @@ export const AllToolsData: ToolInformationDto[] = [
         shortDescription: 'Công cụ chuyển đổi lương GROSS-NET',
         description: 'Công cụ chuyển đổi lương GROSS-NET',
         icon: '',
-        isActive: true
+        isActive: true,
+        background: 'transparent'
     },
 ]

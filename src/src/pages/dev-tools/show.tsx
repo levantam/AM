@@ -5,6 +5,8 @@ import { AllToolsData } from "../../tools/all-tool";
 import { ToolEnum } from "../../constants";
 import { GuidGenerator } from "../../tools/dev/guid-generator";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {  faArrowLeftLong } from '@fortawesome/free-solid-svg-icons'
 
 export const DevToolShow: React.FC<IResourceComponentsProps> = () => {
   let { id } = useParams();
@@ -15,7 +17,7 @@ export const DevToolShow: React.FC<IResourceComponentsProps> = () => {
     switch (tool?.id) {
       case ToolEnum.GUIDGenerator:
         return <GuidGenerator />
-        defauld:
+      default:
         return <div>Not found</div>
     }
   }
@@ -23,9 +25,9 @@ export const DevToolShow: React.FC<IResourceComponentsProps> = () => {
   return (
     <Card style={{ minHeight: 500 }}>
       <h2>
-        <ArrowLeftOutlined style={{marginRight: 20}} onClick={() => {navigate(`/${tool?.category}`)}} />
+        <FontAwesomeIcon icon={faArrowLeftLong} style={{ marginRight: 20, cursor: 'pointer'  }} onClick={() => { navigate(`/${tool?.category}`) }} />
         {tool?.name}
-        </h2>
+      </h2>
       {renderTool()}
     </Card>
   )

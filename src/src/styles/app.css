@@ -4,3 +4,10 @@
 .tool-item:hover {
     background: #e4e4e3;
 }
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}

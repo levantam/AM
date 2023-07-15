@@ -38,6 +38,10 @@ import { DevToolList, DevToolShow } from "./pages/dev-tools";
 import { CodeOutlined, DotChartOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { AboutPage } from "./pages/about";
 import { HrToolList, HrToolShow } from "./pages/hr-tools";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserGroup, faCode, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { ToolShow } from "./pages/tool-show";
+import { Dashboard } from "./pages/dashboard";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -84,7 +88,7 @@ function App() {
                 show: "/dev-tools/show/:id",
                 meta: {
                   canDelete: true,
-                  icon: <CodeOutlined /> 
+                  icon: <FontAwesomeIcon icon={faCode} />
                 },
               },
               {
@@ -93,7 +97,7 @@ function App() {
                 show: "/hr-tools/show/:id",
                 meta: {
                   canDelete: true,
-                  icon: <DotChartOutlined />
+                  icon: <FontAwesomeIcon icon={faUserGroup} />
                 },
               },
               {
@@ -101,7 +105,7 @@ function App() {
                 list: "/about",
                 meta: {
                   canDelete: true,
-                  icon: <InfoCircleOutlined /> 
+                  icon: <FontAwesomeIcon icon={faCircleInfo} />
                 },
               },
             ]}
@@ -128,10 +132,10 @@ function App() {
                   </ThemedLayoutV2>
                 }
               >
-                <Route
+                {/* <Route
                   index
                   element={<NavigateToResource resource="blog_posts" />}
-                />
+                /> */}
                 {/* <Route path="/blog-posts">
                   <Route index element={<BlogPostList />} />
                   <Route path="create" element={<BlogPostCreate />} />
@@ -144,13 +148,16 @@ function App() {
                   <Route path="edit/:id" element={<CategoryEdit />} />
                   <Route path="show/:id" element={<CategoryShow />} />
                 </Route> */}
+                <Route path="/">
+                  <Route index element={<Dashboard />} />
+                </Route>
                 <Route path="/dev-tools">
                   <Route index element={<DevToolList />} />
-                  <Route path="show/:id" element={<DevToolShow />} />
+                  <Route path="show/:id" element={<ToolShow />} />
                 </Route>
                 <Route path="/hr-tools">
                   <Route index element={<HrToolList />} />
-                  <Route path="show/:id" element={<HrToolShow />} />
+                  <Route path="show/:id" element={<ToolShow />} />
                 </Route>
                 <Route path="/about">
                   <Route index element={<AboutPage />} />

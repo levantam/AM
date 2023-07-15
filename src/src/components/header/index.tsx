@@ -15,6 +15,9 @@ import {
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { ColorModeContext } from "../../contexts/color-mode";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCommentSms } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from "react-router-dom";
 
 const { Text } = Typography;
 const { useToken } = theme;
@@ -34,6 +37,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   const changeLanguage = useSetLocale();
   const { data: user } = useGetIdentity<IUser>();
   const { mode, setMode } = useContext(ColorModeContext);
+  const navigate = useNavigate();
 
   const currentLocale = locale();
 
@@ -82,6 +86,9 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
             </Space>
           </Button>
         </Dropdown> */}
+        <Button onClick={() => {navigate('/about')}} type="text" icon={<FontAwesomeIcon icon={faCommentSms} bounce size="sm" />}>
+          Request New Tool
+        </Button>
         <Switch
           checkedChildren="🌛"
           unCheckedChildren="🔆"

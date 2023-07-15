@@ -12,7 +12,7 @@ export const ToolItem = (props: IToolProps) => {
     const { tool } = props;
 
     const goDetail = () => {
-        navigate(`/${ToolCategory.devTools}/show/${tool.id}`);
+        navigate(`/${tool.category}/show/${tool.id}`);
     }
     return (
         <Card bordered style={{margin: 4}} className="tool-item" onClick={goDetail}>
