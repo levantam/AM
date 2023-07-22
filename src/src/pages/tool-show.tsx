@@ -8,6 +8,7 @@ import { VNGrossNetCalculation } from "../tools/hr/vn-gross-net-calculation";
 import { ToolEnum } from "../constants";
 import { GuidGenerator } from "../tools/dev/guid-generator";
 import { ShareButton } from "../components/share-button";
+import { BranchNameGenerator } from "../tools/dev/branch-name-generator";
 
 export const ToolShow: React.FC<IResourceComponentsProps> = () => {
     let { id } = useParams();
@@ -19,7 +20,9 @@ export const ToolShow: React.FC<IResourceComponentsProps> = () => {
             // dev tools
             case ToolEnum.GUIDGenerator:
                 return <GuidGenerator />
-            
+            case ToolEnum.BranchNameCreator:
+                return <BranchNameGenerator />
+
             // HR tools
             case ToolEnum.GrossNetCalculation:
                 return <VNGrossNetCalculation />

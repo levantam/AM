@@ -5,6 +5,7 @@ export enum ToolCategory {
 export enum ToolEnum {
     // dev tools
     GUIDGenerator = "guid-generator",
+    BranchNameCreator = "branch-creator",
 
     // hr tools
     GrossNetCalculation = "vn-gross-net-calculation"

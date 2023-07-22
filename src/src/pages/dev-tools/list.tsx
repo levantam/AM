@@ -5,11 +5,14 @@ import { Card } from "antd";
 import { ToolList } from "../../components/tools/tool-list";
 import { ToolCategory, ToolEnum } from "../../constants";
 import { AllToolsData } from "../../tools/all-tool";
+import { getToolsByCategory } from "../../tools/helper";
 
 export const DevToolList: React.FC<IResourceComponentsProps> = () => {
-  const devTools: ToolInformationDto[] =  AllToolsData.filter(t => t.category == ToolCategory.devTools);
+  const categoryId = ToolCategory.devTools;
+  const devTools: ToolInformationDto[] =  getToolsByCategory(categoryId);
+  
   return (
-    <Card>
+    <Card style={{minHeight: 500}}>
       <h2>Dev tools</h2>
       <ToolList tools={devTools} colspan={6} />
     </Card>

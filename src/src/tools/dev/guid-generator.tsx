@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, InputNumber, Space, Input, Row, Col, notification } from "antd"
+import { Button, Checkbox, Form, InputNumber, Space, Input, Row, Col, notification, Tag } from "antd"
 const { TextArea } = Input;
 import React, { useMemo } from "react";
 import { useState } from "react";
@@ -12,9 +12,13 @@ export const GuidGenerator = () => {
     const [form] = Form.useForm();
     const [isGenerate, setIsGenerate] = React.useState<boolean>(false);
     const [generatedValue, setGeneratedValue] = React.useState<string>('');
+    const [suggestNumbers, setSuggestNumbers] = React.useState<number[]>([1, 5, 10, 15, 20, 50, 100]);
+
+    React.useEffect(() => {
+        
+    }, []);
 
     const onFinish = async (formValues: any) => {
-        console.log('Received values of form: ', formValues);
         setIsGenerate(true);
         let generateValue = generateGuidList(formValues.number);
         generateValue = formValues.isUpper ? generateValue.toUpperCase() : generateValue;
@@ -54,9 +58,17 @@ export const GuidGenerator = () => {
             <Row>
 
                 <Col span={10} style={{ padding: 10 }}>
-                    <Form.Item name={"number"} label="Number of Guid to generate">
-                        <InputNumber style={{ width: '100%' }} />
+                    <Form.Item name={"number"} label={<div>
+                        Number of Guid to generate 
+                        <Space size={[0, 8]} wrap style={{marginLeft: 10}}>
+                        {
+                            suggestNumbers.map(n => <Tag onClick={() => {form.setFieldValue('number', n)}} color="default" style={{cursor: 'pointer'}}>{n}</Tag>)
+                        }
+                    </Space>
+                    </div>}>
+                        <InputNumber style={{ width: '100%' }} autoFocus onPressEnter={onFinish} max={1000} min={0} />
                     </Form.Item>
+                    
                     <Space direction="horizontal" style={{ marginBottom: 20 }}>
                         <Form.Item name={"isUpper"} valuePropName="checked" noStyle>
                             <Checkbox>Uppercase</Checkbox>

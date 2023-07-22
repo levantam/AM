@@ -86,15 +86,15 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
             </Space>
           </Button>
         </Dropdown> */}
-        <Button onClick={() => {navigate('/about')}} type="text" icon={<FontAwesomeIcon icon={faCommentSms} bounce size="sm" />}>
+        <Button onClick={() => {navigate('/about')}} type="primary" icon={<FontAwesomeIcon icon={faCommentSms} bounce size="sm" />}>
           Request New Tool
         </Button>
-        <Switch
+        {/* <Switch
           checkedChildren="🌛"
           unCheckedChildren="🔆"
           onChange={() => setMode(mode === "light" ? "dark" : "light")}
           defaultChecked={mode === "dark"}
-        />
+        /> */}
         <Space style={{ marginLeft: "8px" }} size="middle">
           {user?.name && <Text strong>{user.name}</Text>}
           {user?.avatar && <Avatar src={user?.avatar} alt={user?.name} />}

@@ -4,7 +4,8 @@ export interface ToolInformationDto {
     category?: string,
     shortDescription?: string,
     description?: string,
-    icon?: string,
+    icon?: any,
     isActive?: boolean,
+    isHidden?: boolean,
     background?: string,
 }

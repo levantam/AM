@@ -18,7 +18,7 @@ import routerBindings, {
 } from "@refinedev/react-router-v6";
 import dataProvider from "@refinedev/simple-rest";
 import { useTranslation } from "react-i18next";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes, HashRouter } from "react-router-dom";
 import { AppIcon } from "./components/app-icon";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
@@ -53,7 +53,7 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <Refine
@@ -172,7 +172,7 @@ function App() {
           </Refine>
         </ColorModeContextProvider>
       </RefineKbarProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
