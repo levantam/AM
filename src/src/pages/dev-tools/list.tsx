@@ -9,7 +9,7 @@ import { getToolsByCategory } from "../../tools/helper";
 
 export const DevToolList: React.FC<IResourceComponentsProps> = () => {
   const categoryId = ToolCategory.devTools;
-  const devTools: ToolInformationDto[] =  getToolsByCategory(categoryId);
+  const devTools: ToolInformationDto[] =  getToolsByCategory(categoryId, false);
   
   return (
     <Card style={{minHeight: 500}}>

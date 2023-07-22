@@ -8,7 +8,7 @@ import { getToolsByCategory } from "../../tools/helper";
 
 export const HrToolList: React.FC<IResourceComponentsProps> = () => {
   const categoryId = ToolCategory.hrTools;
-  const hrTools: ToolInformationDto[] =  getToolsByCategory(categoryId);
+  const hrTools: ToolInformationDto[] =  getToolsByCategory(categoryId, false);
   return (
     <Card>
       <h2>HR tools</h2>
